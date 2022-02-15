@@ -11,8 +11,11 @@
   "dependencies": {},
   "scripts": {
     "publish": "lerna run tsc && lerna publish",
-    "build": "yarn workspaces foreach -pit run build",
+    "build": "yarn workspaces run build",
     "start": "cd packages/server && yarn start",
     "dev": "concurrently -n client,server \"cd packages/client && yarn dev\" \"cd packages/server && yarn dev\""
-  }
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }
