@@ -3,12 +3,16 @@
   "private": true,
   "devDependencies": {
     "@types/node": "^17.0.18",
+    "concurrently": "^7.0.0",
     "lerna": "^4.0.0",
     "ts-node": "^10.5.0",
     "typescript": "^4.5.5"
   },
   "dependencies": {},
   "scripts": {
-    "publish": "lerna run tsc && lerna publish"
+    "publish": "lerna run tsc && lerna publish",
+    "build": "yarn workspaces foreach -pit run build",
+    "start": "cd packages/server && yarn start",
+    "dev": "concurrently -n client,server \"cd packages/client && yarn dev\" \"cd packages/server && yarn dev\""
   }
 }

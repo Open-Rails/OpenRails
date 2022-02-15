@@ -9,5 +9,6 @@
   },
   "scripts": {
     "start": "ts-node src/index.ts"
-  }
+  },
+  "gitHead": "aa03c97e98ff311468a7c9571a13c54759ff48e0"
 }
