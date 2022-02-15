@@ -8,7 +8,8 @@
     "@untitledpay/reactclient": "^0.0.1"
   },
   "scripts": {
-    "start": "ts-node src/index.ts"
+    "start": "ts-node src/index.ts",
+    "build": "echo done"
   },
   "gitHead": "aa03c97e98ff311468a7c9571a13c54759ff48e0"
 }
