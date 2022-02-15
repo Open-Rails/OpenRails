@@ -1,0 +1,31 @@
+# dependencies
+**/node_modules/
+**/build
+**/*.tsbuildinfo
+.env
+**/*.log
+**/.vscode
+.vscode/settings.json
+serverBuild
+clientBuild
+.DS_Store
+data/
+
+# Test outputs
+test-reports
+junit.xml
+screenshots
+videos
+coverage
+.vimrc
+
+# Yarn 2.0
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
+
+data/
