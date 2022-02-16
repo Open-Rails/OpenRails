@@ -1,26 +1,31 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import LayoutWallet from './components/layouts/layout-wallet';
+import { WALLETS } from './constants/wallets';
+import { NETWORK } from './constants/network';
+import HomePage from './pages/home/home';
+import {
+  HashRouter,
+  Routes,
+  Route
+} from "react-router-dom";
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <div className="app-container">
+      <LayoutWallet
+        wallets={WALLETS}
+        network={NETWORK}
+      >
+        <HashRouter>
+            <Routes>
+              <Route path='/' element={<HomePage />} />
+            </Routes>
+        </HashRouter>
+      </LayoutWallet>
+    </div >
   );
-}
+};
 
 export default App;
