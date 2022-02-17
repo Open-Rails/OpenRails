@@ -10,20 +10,25 @@ import {
   Routes,
   Route
 } from "react-router-dom";
+import { lightTheme } from './assets/theme/mui-theme';
+import { createTheme, ThemeProvider } from '@mui/material';
 
+const theme = createTheme(lightTheme)
 const App: React.FC = () => {
   return (
     <div className="app-container">
-      <LayoutWallet
-        wallets={WALLETS}
-        network={NETWORK}
-      >
-        <HashRouter>
-            <Routes>
-              <Route path='/' element={<HomePage />} />
-            </Routes>
-        </HashRouter>
-      </LayoutWallet>
+      <ThemeProvider theme={theme}>
+        <LayoutWallet
+          wallets={WALLETS}
+          network={NETWORK}
+        >
+          <HashRouter>
+              <Routes>
+                <Route path='/' element={<HomePage />} />
+              </Routes>
+          </HashRouter>
+        </LayoutWallet>
+      </ThemeProvider>
     </div >
   );
 };
