@@ -11,7 +11,7 @@
   "scripts": {
     "publish": "lerna run tsc && lerna publish",
     "build": "yarn workspaces foreach run build",
-    "start": "cd packages/server && yarn start:prod",
+    "start": "cd packages/server && yarn run start:prod",
     "dev": "concurrently -n client,server \"cd packages/client && yarn dev\" \"cd packages/server && yarn dev\"",
     "dev-yarn": "yarn workspaces foreach -pi --topological-dev --include '{@untitledpay/server,@untitledpay/client}' run dev"
   },
