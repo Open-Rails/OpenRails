@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "paths": {
+      "stream": ["./node_modules/readable-stream"],
+      "path": ["./node_modules/path-browserify"]
+    },
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,

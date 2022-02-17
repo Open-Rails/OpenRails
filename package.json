@@ -8,7 +8,6 @@
     "ts-node": "^10.5.0",
     "typescript": "^4.5.5"
   },
-  "dependencies": {},
   "scripts": {
     "publish": "lerna run tsc && lerna publish",
     "build": "yarn workspaces run build",
@@ -17,5 +16,6 @@
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "packageManager": "yarn@3.1.1"
 }

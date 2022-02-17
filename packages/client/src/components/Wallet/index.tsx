@@ -49,6 +49,7 @@ const Wallet: FC = ({ children }) => {
         <WalletModalProvider>
           <WalletMultiButton />
           <WalletDisconnectButton />
+          Network being used: {network.valueOf()}
           {children}
         </WalletModalProvider>
       </WalletProvider>
