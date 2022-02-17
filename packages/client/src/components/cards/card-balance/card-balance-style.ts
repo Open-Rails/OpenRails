@@ -3,6 +3,12 @@ import { lightTheme } from '../../../assets/theme/mui-theme';
 
 const CardBalanceContainer = styled.div`
 
+  //TODO : Delete this (this is an example)
+  .card-balance-animation {
+    width: 600px; 
+    background: blue; 
+  }
+
   .card-balance-paper {
     background: ${lightTheme.palette.background.paper};
     padding: 48px; 
