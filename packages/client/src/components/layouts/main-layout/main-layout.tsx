@@ -1,5 +1,6 @@
 import React from 'react'
 import MainHeader from '../../main-header/main-header';
+import MainLayoutContainer from './main-layout-style';
 
 interface MainLayoutProps {
   hasHeader?: boolean; 
@@ -12,7 +13,7 @@ const MainLayout: React.FC<MainLayoutProps> = (props: MainLayoutProps) => {
     hasHeader
   } = props; 
 
-  return <div className="main-layout">
+  return <MainLayoutContainer className="main-layout">
     {
       hasHeader && <header>
         <MainHeader/>
@@ -22,7 +23,7 @@ const MainLayout: React.FC<MainLayoutProps> = (props: MainLayoutProps) => {
     <main className="main-app">
       {props.children}
     </main>
-  </div>
+  </MainLayoutContainer>
 }
 
 export default MainLayout
