@@ -1,16 +1,13 @@
 import { Cluster, clusterApiUrl, Connection } from '@solana/web3.js';
 
 
-const establishConnection = async (cluster: Cluster = "devnet"): Promise<Connection> => {
+const connectToCluster = async (cluster: Cluster = "devnet"): Promise<Connection> => {
   const endpoint = clusterApiUrl(cluster);
   const connection = new Connection(endpoint, 'confirmed');
-  const version = await connection.getVersion();
-  console.log('Connection to cluster established:', endpoint, version);
-
   return connection;
 }
 
 export default {
-  establishConnection
+  connectToCluster
 }
 

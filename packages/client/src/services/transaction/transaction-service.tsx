@@ -1,13 +1,15 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { useState } from 'react'
 
-import { useWallet } from '@solana/wallet-adapter-react';
 import { Commitment, Connection, LAMPORTS_PER_SOL, sendAndConfirmTransaction } from '@solana/web3.js';
 import w3Connector from '../../lib/solana-w3/w3-connector'
 import payWalletConnector from '../../lib/solana-pay/wallet-connector'
 import { ICreateTransactionUrl, IMakeTransaction } from './transaction-types';
+import { useConnection } from '@solana/wallet-adapter-react';
 
 export const useTransactionService = () => {
+  const { connection } = useConnection();
+
   const createTransactionUrl = (params: ICreateTransactionUrl) => {
     const {
       recipient,
@@ -26,8 +28,6 @@ export const useTransactionService = () => {
     const { checkout, customerWallet } = params;
 
     try {
-
-      const connection = await w3Connector.establishConnection();
 
       const transactionUrl = createTransactionUrl(checkout)
 
