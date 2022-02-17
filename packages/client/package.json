@@ -5,6 +5,7 @@
   "dependencies": {
     "@babel/core": "^7.16.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
+    "@solana/buffer-layout": "^4.0.0",
     "@solana/wallet-adapter-base": "^0.9.3",
     "@solana/wallet-adapter-react": "^0.15.3",
     "@solana/wallet-adapter-react-ui": "^0.9.5",
@@ -14,6 +15,7 @@
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
+    "@toruslabs/base-controllers": "^1.6.2",
     "@types/jest": "^27.4.0",
     "@types/node": "^16.11.25",
     "@types/react": "^17.0.39",
@@ -33,6 +35,7 @@
     "eslint": "^8.3.0",
     "eslint-config-react-app": "^7.0.0",
     "eslint-webpack-plugin": "^3.1.1",
+    "eth-rpc-errors": "^4.0.3",
     "file-loader": "^6.2.0",
     "fs-extra": "^10.0.0",
     "html-webpack-plugin": "^5.5.0",

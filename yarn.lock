@@ -3444,6 +3444,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@solana/buffer-layout@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@solana/buffer-layout@npm:4.0.0"
+  dependencies:
+    buffer: ~6.0.3
+  checksum: f244e9c42425477ded1fb5295252d7cb093cd591a14552e89271000ad5c01a5b5c0f2f83c7253d640414b600d4b31d95e9f3fcaec6d8280d3d6cb7f3d0a88565
+  languageName: node
+  linkType: hard
+
 "@solana/wallet-adapter-base@npm:^0.9.3":
   version: 0.9.3
   resolution: "@solana/wallet-adapter-base@npm:0.9.3"
@@ -3918,7 +3927,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@toruslabs/base-controllers@npm:^1.4.2":
+"@toruslabs/base-controllers@npm:^1.4.2, @toruslabs/base-controllers@npm:^1.6.2":
   version: 1.6.2
   resolution: "@toruslabs/base-controllers@npm:1.6.2"
   dependencies:
@@ -4702,6 +4711,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.16.0
     "@pmmmwh/react-refresh-webpack-plugin": ^0.5.3
+    "@solana/buffer-layout": ^4.0.0
     "@solana/wallet-adapter-base": ^0.9.3
     "@solana/wallet-adapter-react": ^0.15.3
     "@solana/wallet-adapter-react-ui": ^0.9.5
@@ -4711,6 +4721,7 @@ __metadata:
     "@testing-library/jest-dom": ^5.16.2
     "@testing-library/react": ^12.1.2
     "@testing-library/user-event": ^13.5.0
+    "@toruslabs/base-controllers": ^1.6.2
     "@types/jest": ^27.4.0
     "@types/node": ^16.11.25
     "@types/react": ^17.0.39
@@ -4730,6 +4741,7 @@ __metadata:
     eslint: ^8.3.0
     eslint-config-react-app: ^7.0.0
     eslint-webpack-plugin: ^3.1.1
+    eth-rpc-errors: ^4.0.3
     file-loader: ^6.2.0
     fs-extra: ^10.0.0
     html-webpack-plugin: ^5.5.0
