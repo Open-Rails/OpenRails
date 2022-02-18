@@ -51,7 +51,7 @@ const SendButton: FC<{ amountSol: number; recipient: string }> = ({ amountSol, r
 
   return (
     <div>
-      <p>{`User PublicKey: ${publicKey?.toBase58()}`}</p>
+      <p>{`Your PublicKey: ${publicKey?.toBase58()}`}</p>
       <p>{`Wallet State: ${wallet?.readyState.valueOf()}`}</p>
       <p>
         <button onClick={onClick} disabled={!publicKey}>
