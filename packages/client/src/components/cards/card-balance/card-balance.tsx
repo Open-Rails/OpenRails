@@ -17,7 +17,7 @@ const CardBalance: React.FC<CardBalanceProps> = (props: CardBalanceProps) => {
   return <CardBalanceContainer>
     <motion.div
       className="card-balance-animation"
-      whileHover={{ scale: 1.1 }}
+      whileHover={{ scale: 1.03 }}
     >
       <Paper className="card-balance-paper">
         <Typography
