@@ -1,31 +1,36 @@
-import React from 'react'
-import logo from './logo.svg'
-import './App.css'
-import Wallet from './components/Wallet'
-import SendButton from './components/SendButton'
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import LayoutWallet from './components/layouts/layout-wallet';
+import { WALLETS } from './constants/wallets';
+import { NETWORK } from './constants/network';
+import HomePage from './pages/home/home';
+import {
+  HashRouter,
+  Routes,
+  Route
+} from "react-router-dom";
+import { lightTheme } from './assets/theme/mui-theme';
+import { createTheme, ThemeProvider } from '@mui/material';
 
-function App() {
+const theme = createTheme(lightTheme)
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <Wallet>
-          <SendButton />
-        </Wallet>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className="app-container">
+      <ThemeProvider theme={theme}>
+        <LayoutWallet
+          wallets={WALLETS}
+          network={NETWORK}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  )
-}
+          <HashRouter>
+              <Routes>
+                <Route path='/' element={<HomePage />} />
+              </Routes>
+          </HashRouter>
+        </LayoutWallet>
+      </ThemeProvider>
+    </div >
+  );
+};
 
 export default App
