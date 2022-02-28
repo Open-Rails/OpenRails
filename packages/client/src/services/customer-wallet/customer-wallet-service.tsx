@@ -10,7 +10,7 @@ export const useCustomerWalletService = () => {
   const [errorMessage, setErrorMessage] = useState<string>('')
 
   useEffect(() => {
-    if(wallet.publicKey) {
+    if (wallet.publicKey) {
       getBalance()
     }
   }, [wallet]);
@@ -18,7 +18,7 @@ export const useCustomerWalletService = () => {
   const getPublicKey58 = () => {
     try {
       return wallet.publicKey.toBase58()
-    } catch(error) {
+    } catch (error) {
       console.log(error)
       setErrorMessage('Your wallet is not connected')
     }
@@ -31,13 +31,12 @@ export const useCustomerWalletService = () => {
       const newBalance = account.lamports / LAMPORTS_PER_SOL
       setBalance(newBalance)
       return newBalance
-    } catch(error) {
+    } catch (error) {
       setErrorMessage('Your wallet is not connected')
     }
   }
 
   const createTransaction = async (amount: number) => {
-    //This is a demo
     const toPublicKey = Keypair.generate().publicKey
     const lamports = LAMPORTS_PER_SOL * amount
     try {
@@ -51,15 +50,15 @@ export const useCustomerWalletService = () => {
       console.log('transaction', transaction)
       const signature = await wallet.sendTransaction(transaction, connection)
 
-      console.log('signature',signature)
+      console.log('signature', signature)
       await connection.confirmTransaction(signature, 'processed')
-      
+
       const newBalance = balance - amount;
       setBalance(newBalance)
-    } catch(error) {
-      console.log('transactionnnn',error)
+    } catch (error) {
+      console.log('transactionnnn', error)
 
-      if(wallet.publicKey) {
+      if (wallet.publicKey) {
         setErrorMessage('Error Making the transaction')
       } else {
         setErrorMessage('Your wallet is not connected')
@@ -67,7 +66,7 @@ export const useCustomerWalletService = () => {
     }
   }
 
-  return  {
+  return {
     ...wallet,
     getPublicKey58,
     getBalance,

@@ -7,10 +7,12 @@ import { Button, Paper, TextField, Typography } from '@mui/material';
 import CardBalance from '../../components/cards/card-balance/card-balance';
 import HomeContainer from './home-style';
 import ModalInfo from '../../components/modal-info/modal-info';
+import { useAuthService } from '../../services/auth/auth-service';
 require('@solana/wallet-adapter-react-ui/styles.css');
 
 const HomePage: React.FC = () => {
   const walletService = useCustomerWalletService()
+  const authService = useAuthService()
   const [amountToSend, setAmountToSend] = useState<number>(0)
 
   return <HomeContainer>
@@ -84,6 +86,7 @@ const HomePage: React.FC = () => {
         />
 
       </section>
+     
 
     </MainLayout>
 

@@ -1,4 +1,4 @@
-import { css, cx } from '@emotion/css'
+import { css } from '@emotion/css'
 import { lightTheme } from '../../assets/theme/mui-theme';
 
 const ModalInfoStyle = css`
