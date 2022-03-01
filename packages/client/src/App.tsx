@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material';
 
 const theme = createTheme(lightTheme)
 const App: React.FC = () => {
+  console.log("NETWORK", NETWORK)
   return (
     <div className="app-container">
       <ThemeProvider theme={theme}>
