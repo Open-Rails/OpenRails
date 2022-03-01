@@ -15,7 +15,7 @@ function App() {
       <header className="App-header">
         <Wallet>
           <Balances />
-          <SendButton recipient={mobileWallet} amountSol={0.01} />
+          <SendButton recipient={mobileWallet} amountSol={0.001} />
           <SignButton />
         </Wallet>
         <img src={logo} className="App-logo" alt="logo" />
