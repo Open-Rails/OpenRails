@@ -85,7 +85,7 @@
     "workbox-webpack-plugin": "^6.4.1"
   },
   "scripts": {
-    "start": "node scripts/start.js",
+    "start": "env-cmd -f .env node scripts/start.js",
     "start:test": "env-cmd -f .env.test node scripts/start.js",
     "start:dev": "env-cmd -f .env.dev node scripts/start.js",
     "start:prod": "env-cmd -f .env.prod node scripts/start.js",
