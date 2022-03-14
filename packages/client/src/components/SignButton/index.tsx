@@ -58,9 +58,35 @@ const signedMessage = await solana.request({
 });
 */
 
+declare global {
+  interface Window {
+    solana: any | undefined
+  }
+}
+
 const SignButton: React.FC = () => {
   const { connection } = useConnection()
   const { publicKey, signMessage } = useWallet()
+
+  console.log('global object: ', window.solana)
+  console.log('is phantom object: ', window.solana && window.solana.isPhantom)
+
+  // console.log('publickey: ', publicKey?.toBase58())
+  // console.log('signmessage method: ', signMessage)
+
+  // just a dummy
+  const dummySignature = React.useCallback(async (message: string) => {
+    if (window.solana) {
+      const nonce = `\n \n nonce: ${nanoid(10)}`
+      const encodedMessage = new TextEncoder().encode(message + nonce)
+
+      const signature = await window.solana.signMessage(encodedMessage)
+      console.log('sig here: ', signature)
+      // const verified = nacl.sign.detached.verify(encodedMessage, signature, publicKey.toBytes())
+      // if (verified) console.log('signature is legit')
+      // else console.log('signature is a fraud')
+    }
+  }, [])
 
   // This is the right way to do a signature
   const requestSignature = React.useCallback(
@@ -125,7 +151,7 @@ const SignButton: React.FC = () => {
   }, [publicKey, signMessage, connection])
 
   // return <button onClick={() => requestSignature(baseMsg)}>Sign This Message</button>
-  return <button onClick={maliciousSignature}>Sign This Message</button>
+  return <button onClick={() => requestSignature(baseMsg)}>Sign This Message</button>
 }
 
 export default SignButton

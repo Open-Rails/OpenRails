@@ -42,11 +42,11 @@ const Balances: FC = () => {
           })
 
         tokenAccounts.value.forEach(tokenAccount => {
-          console.log('Account Pubkey: ', tokenAccount.pubkey.toBase58())
-          console.log('Token mint: ', tokenAccount.account.data.parsed.info.mint)
-          console.log('Account Owner: ', tokenAccount.account.data.parsed.info.owner)
-          console.log('Token Amount: ', tokenAccount.account.data.parsed.info.tokenAmount.amount)
-          console.log('Account Data: ', tokenAccount.account.data)
+          // console.log('Account Pubkey: ', tokenAccount.pubkey.toBase58())
+          // console.log('Token mint: ', tokenAccount.account.data.parsed.info.mint)
+          // console.log('Account Owner: ', tokenAccount.account.data.parsed.info.owner)
+          // console.log('Token Amount: ', tokenAccount.account.data.parsed.info.tokenAmount.amount)
+          // console.log('Account Data: ', tokenAccount.account.data)
         })
       }
     }

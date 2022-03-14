@@ -137,18 +137,21 @@ const SendButton: FC<{ amountSol: number; recipient: string }> = ({ amountSol, r
 
         setTransactionStatus('sending...')
 
-        const txHash = await connection.sendRawTransaction(signedTx.serialize())
+        const serialized = signedTx.serialize()
+        console.log('serialized tx', serialized)
+
+        // const txHash = await connection.sendRawTransaction(signedTx.serialize())
 
         setTransactionStatus('confirming...')
 
-        connection
-          .confirmTransaction(txHash)
-          .then(txResult => {
-            setTransactionStatus('complete')
-          })
-          .catch(err => {
-            setTransactionStatus('failed')
-          })
+        // connection
+        //   .confirmTransaction(txHash)
+        //   .then(txResult => {
+        //     setTransactionStatus('complete')
+        //   })
+        //   .catch(err => {
+        //     setTransactionStatus('failed')
+        //   })
       })
       .catch(err => {
         setTransactionStatus('failed')

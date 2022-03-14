@@ -1,5 +1,15 @@
-Create a .env file in root and set SERVER_PORT=8081
-This will set the nestjs server to run on 8081
-The react client app runs on 3000
+## Getting Started
 
-Use the 'yarn run dev' command to start both client and server at the same time
+Create a .env file in root and set SERVER_PORT=8081, or whatever port you want to use
+Run 'yarn install' to install all dependencies
+
+## Commands
+
+Run 'yarn dev' to run the client + server in development mode
+Run 'yarn build' and then 'yarn start' in order to to first build the client app, and
+then start the NestJS server. The NestJS server will serve up the client app.
+
+## Default Ports
+
+NestJS Server: 8081
+React Client app: 3000 (only used when running in dev mode)
