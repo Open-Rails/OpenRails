@@ -5,6 +5,8 @@ import Wallet from './components/Wallet'
 import SendButton from './components/SendButton'
 import Balances from './components/Balances'
 import SignButton from './components/SignButton'
+import TransferTokenButton from './components/TransferToken/transfer-token'
+import { PublicKey } from '@solana/web3.js'
 
 const fireFoxWallet = 'GCQLiawuDQbaaxFUAKcGpvQxfSxddZwGDp8p4Q57DfoX'
 const mobileWallet = '8LfpJdYTjKU9ZdBZUErzMydRqGNrihKn2qvjwtBfYK2r'
@@ -15,8 +17,9 @@ function App() {
       <header className="App-header">
         <Wallet>
           <Balances />
-          <SendButton recipient={mobileWallet} amountSol={0.001} />
+          <SendButton recipient={mobileWallet} amountSol={0.05} />
           <SignButton />
+          <TransferTokenButton recipientPubkey={new PublicKey(fireFoxWallet)} amount={0.05} />
         </Wallet>
         <img src={logo} className="App-logo" alt="logo" />
         <p>
