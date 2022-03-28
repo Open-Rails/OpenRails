@@ -1,25 +1,30 @@
-import React from 'react'
-import logo from './logo.svg'
-import './App.css'
-import Wallet from './components/Wallet'
-import SendButton from './components/SendButton'
-import Balances from './components/Balances'
-import SignButton from './components/SignButton'
-import TransferTokenButton from './components/TransferToken/transfer-token'
-import { PublicKey } from '@solana/web3.js'
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import Wallet from "./components/Wallet";
+import SendButton from "./components/SendButton";
+import Balances from "./components/Balances";
+import TransferTokenButton from "./components/TransferToken/transfer-token";
+import { PublicKey } from "@solana/web3.js";
+import SignButton from "./components/SignButton";
+import MerchantURL from "./components/MerchantURL";
 
-const fireFoxWallet = 'GCQLiawuDQbaaxFUAKcGpvQxfSxddZwGDp8p4Q57DfoX'
-const mobileWallet = '8LfpJdYTjKU9ZdBZUErzMydRqGNrihKn2qvjwtBfYK2r'
+const fireFoxWallet = "GCQLiawuDQbaaxFUAKcGpvQxfSxddZwGDp8p4Q57DfoX";
+const mobileWallet = "8LfpJdYTjKU9ZdBZUErzMydRqGNrihKn2qvjwtBfYK2r";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
         <Wallet>
+          <MerchantURL />
           <Balances />
           <SendButton recipient={mobileWallet} amountSol={0.05} />
           <SignButton />
-          <TransferTokenButton recipientPubkey={new PublicKey(fireFoxWallet)} amount={0.05} />
+          <TransferTokenButton
+            recipientPubkey={new PublicKey(fireFoxWallet)}
+            amount={0.05}
+          />
         </Wallet>
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -35,7 +40,7 @@ function App() {
         </a>
       </header>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

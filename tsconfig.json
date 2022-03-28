@@ -11,7 +11,9 @@
         "sourceMap": true,
         "lib": [
             "es6"
-        ]
+        ],
+        "incremental": true,
+        "composite": true
     },
     "exclude": [
         "node_modules",
