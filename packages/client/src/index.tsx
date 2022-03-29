@@ -5,6 +5,8 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { QueryParamProvider } from "use-query-params";
+import { enableAllPlugins } from "immer";
+enableAllPlugins();
 
 ReactDOM.render(
   <React.StrictMode>
