@@ -8,10 +8,12 @@ import TextField from "@mui/material/TextField";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
+
+
 import { QRCodeCanvas } from "qrcode.react";
 
 export const PeerConnection = () => {
-  const { connect, myPeerId } = usePeerConnectionContext();
+  const { connect, myPeerId, sendData} = usePeerConnectionContext();
   const [otherPeerID, setOtherPeerID] = React.useState("");
 
   const [connectTo, setConnectTo] = useQueryParam("connect-to", StringParam);
@@ -44,8 +46,13 @@ export const PeerConnection = () => {
         />
       </CardContent>
 
+
       <CardActions>
         <Button onClick={() => connect(otherPeerID)}>Connect to Peer</Button>
+        <Button onClick={sendData}>Send Data</Button>
+
+
+
       </CardActions>
     </Card>
   );

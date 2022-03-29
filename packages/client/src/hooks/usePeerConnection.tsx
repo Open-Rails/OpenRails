@@ -1,8 +1,9 @@
 import React from "react";
 import Peer from "peerjs";
-
+import produce from "immer";
 export interface IPeerConnectionContext {
-  connect: (otherPeerId: string) => void;
+  connect(otherPeerId: string): void;
+  sendData(): void;
   myPeerId: string;
 }
 
@@ -15,6 +16,11 @@ export const PeerConnectionContextProvider: React.FC = ({ children }) => {
   const [peerStatus, setPeerStatus] = React.useState<
     "open" | "connecting" | "error"
   >("connecting");
+
+  const [connections, setConnections] = React.useState(
+    new Map<string, Peer.DataConnection>()
+  );
+
   const [peer, setPeer] = React.useState(
     () =>
       new Peer({
@@ -36,7 +42,6 @@ export const PeerConnectionContextProvider: React.FC = ({ children }) => {
       });
       conn.on("open", () => {
         console.log("Opened");
-
         conn.send("hello!");
       });
     };
@@ -76,6 +81,12 @@ export const PeerConnectionContextProvider: React.FC = ({ children }) => {
     (otherPeerId: string) => {
       const connection = peer.connect(otherPeerId);
       connection.on("open", () => {
+        setConnections(
+          produce((mapDraft) => {
+            mapDraft.set(otherPeerId, connection);
+          })
+        );
+
         connection.send(
           JSON.stringify({
             publicKey: "iqjeoiqjeoiblabla",
@@ -87,10 +98,29 @@ export const PeerConnectionContextProvider: React.FC = ({ children }) => {
       connection.on("data", (data) => {
         console.log("connection data", data);
       });
+
+      connection.on("error", console.error);
+
+      connection.on("close", () => {
+        console.log(`closed connection with "${otherPeerId}$`);
+      });
     },
     [peer]
   );
-  const value: IPeerConnectionContext = { connect, myPeerId };
+
+  const sendData = React.useCallback(() => {
+    return connections.forEach((conn, connId) => {
+      const sentMessage = JSON.stringify({
+        msg: "message",
+        description: "description",
+        sentTo: connId,
+      });
+      console.log("sentMessage->", sentMessage);
+      conn.send(sentMessage);
+    });
+  }, [connections]);
+
+  const value: IPeerConnectionContext = { connect, myPeerId, sendData };
 
   return (
     <PeerConnectionContext.Provider value={value}>
