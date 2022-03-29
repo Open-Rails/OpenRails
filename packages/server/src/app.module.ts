@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 const clientPath = join(__dirname, '../../client/build');
 console.log(`Serving static files from ${clientPath}`);
@@ -15,6 +17,8 @@ console.log(`Serving static files from ${clientPath}`);
     ServeStaticModule.forRoot({
       rootPath: clientPath,
     }),
+    AuthModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
