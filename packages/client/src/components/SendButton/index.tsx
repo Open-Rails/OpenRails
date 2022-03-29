@@ -140,6 +140,11 @@ const SendButton: FC<{ amountSol: number; recipient: string }> = ({ amountSol, r
         const serialized = signedTx.serialize()
         console.log('serialized tx', serialized)
 
+        var u8 = new Uint8Array(serialized)
+        var b64 = Buffer.from(u8).toString('base64')
+
+        console.log('transaction as b64: ', b64)
+
         // const txHash = await connection.sendRawTransaction(signedTx.serialize())
 
         setTransactionStatus('confirming...')

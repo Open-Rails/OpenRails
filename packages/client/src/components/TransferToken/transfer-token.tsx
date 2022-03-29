@@ -1,7 +1,8 @@
 import React from 'react'
 import {
-  //   getOrCreateAssociatedTokenAccount,
+  getOrCreateAssociatedTokenAccount,
   createInitializeAccountInstruction,
+  createAssociatedTokenAccountInstruction,
   TOKEN_PROGRAM_ID,
   createTransferCheckedInstruction
 } from '@solana/spl-token'
@@ -75,6 +76,8 @@ const TransferTokenButton: React.FC<{ recipientPubkey: PublicKey; amount: number
     )
 
     const transaction = new Transaction().add(transferInstruction)
+
+    console.log('transfer instruction', transaction)
 
     try {
       const txHash = await sendTransaction(transaction, connection)
