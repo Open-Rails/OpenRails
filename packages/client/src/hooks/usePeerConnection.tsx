@@ -12,11 +12,14 @@ const PeerConnectionContext = React.createContext<IPeerConnectionContext>(
 
 export const PeerConnectionContextProvider: React.FC = ({ children }) => {
   const [myPeerId, setMyPeerId] = React.useState("");
+  const [peerStatus, setPeerStatus] = React.useState<
+    "open" | "connecting" | "error"
+  >("connecting");
   const [peer, setPeer] = React.useState(
     () =>
       new Peer({
         port: 9000,
-        debug: 3,
+        debug: 2,
         path: "myapp",
         host: "localhost",
       })
@@ -28,9 +31,6 @@ export const PeerConnectionContextProvider: React.FC = ({ children }) => {
     const onConnectionHandler: (conn: Peer.DataConnection) => void = (
       conn: Peer.DataConnection
     ) => {
-      console.log("Connected");
-      setMyPeerId(peer.id);
-
       conn.on("data", (data) => {
         console.log("Data-> ", data);
       });
@@ -50,16 +50,21 @@ export const PeerConnectionContextProvider: React.FC = ({ children }) => {
     };
     const onOpenHandler = (id: string) => {
       setMyPeerId(id);
+      setPeerStatus("open");
+    };
+    const onErrorHandler = (err: any) => {
+      console.error(err);
+      setPeerStatus("error");
     };
 
-    peer.on("error", console.error);
+    peer.on("error", onErrorHandler);
     peer.on("connection", onConnectionHandler);
     peer.on("open", onOpenHandler);
     peer.on("disconnected", onDisconnectionHandler);
     peer.on("close", onClosedHandler);
 
     return () => {
-      peer.off("error", console.error);
+      peer.off("error", onErrorHandler);
       peer.off("connection", onConnectionHandler);
       peer.off("open", onOpenHandler);
       peer.off("disconnected", onDisconnectionHandler);
@@ -71,17 +76,25 @@ export const PeerConnectionContextProvider: React.FC = ({ children }) => {
     (otherPeerId: string) => {
       const connection = peer.connect(otherPeerId);
       connection.on("open", () => {
-        connection.send("hi!");
+        connection.send(
+          JSON.stringify({
+            publicKey: "iqjeoiqjeoiblabla",
+            amount: "0.00001",
+            token: "SOL",
+          })
+        );
+      });
+      connection.on("data", (data) => {
+        console.log("connection data", data);
       });
     },
     [peer]
   );
-
   const value: IPeerConnectionContext = { connect, myPeerId };
 
   return (
     <PeerConnectionContext.Provider value={value}>
-      {children}
+      {peerStatus === "open" && children}
     </PeerConnectionContext.Provider>
   );
 };
