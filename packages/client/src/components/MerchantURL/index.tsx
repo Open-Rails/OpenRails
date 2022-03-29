@@ -19,7 +19,7 @@ export const MerchantURL: React.FC = () => {
     let paymentStatus: string;
 
     // Connecting to devnet for this example
-    console.log("1. ✅ Establish connection to the network");
+    
     const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
 
     //   // -- snippet -- //
@@ -34,8 +34,6 @@ export const MerchantURL: React.FC = () => {
     //    *
     //    */
 
-    console.log("2. 🛍 Simulate a customer checkout \n");
-    console.log(`Merchant Pub Key: ${MERCHANT_PUB_KEY}`);
     const recipient = new PublicKey(MERCHANT_PUB_KEY);
 
     const amount = new BigNumber(20);
@@ -50,15 +48,6 @@ export const MerchantURL: React.FC = () => {
     //    * Solana Pay uses a standard URL scheme across wallets for native SOL and SPL Token payments.
     //    * Several parameters are encoded within the link representing an intent to collect payment from a customer.
     //    */
-    console.log("3. 💰 Create a payment request link \n");
-
-    console.log("recipient: ", recipient);
-    console.log("amount: ", amount);
-    console.log("reference: ", reference);
-    console.log("label: ", label);
-    console.log("message: ", message);
-    console.log("memo: ", memo);
-
     // const url = encodeURL({
     //   recipient,
     //   amount,
@@ -71,7 +60,6 @@ export const MerchantURL: React.FC = () => {
     const costumURL = `solana:${recipient}?amount=${amount}&label=${label}&message=${message}&memo=${memo}&reference=${reference}`;
     const encodedURL = encodeURI(costumURL);
 
-    console.log(`encodedURL -> ${encodedURL}`);
     // console.log(`url -> ${url}`);
     //   // encode URL in QR code
     // const qrCode = createQR(encodedURL);

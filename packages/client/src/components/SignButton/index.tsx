@@ -76,9 +76,6 @@ const SignButton: React.FC = () => {
   const { connection } = useConnection();
   const { publicKey, signMessage } = useWallet();
 
-  console.log("global object: ", window.solana);
-  console.log("is phantom object: ", window.solana && window.solana.isPhantom);
-
   // This is the right way to do a signature
   const requestSignature = React.useCallback(async () => {
     try {
@@ -101,13 +98,6 @@ const SignButton: React.FC = () => {
       );
 
       const verified = authResult.data;
-
-      // client asks server for nonce
-      // client construcs the challenge message
-      // clients presents to phantom (signMessage)
-      // we get the signature, pass It to the server
-      // auth server verifies and returns token (nacl.sign.detached.verify)
-      // We now, link an account to that wallet
 
       // Account
       // Password
