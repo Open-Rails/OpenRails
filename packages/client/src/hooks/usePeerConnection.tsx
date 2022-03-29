@@ -37,6 +37,11 @@ export const PeerConnectionContextProvider: React.FC = ({ children }) => {
     const onConnectionHandler: (conn: Peer.DataConnection) => void = (
       conn: Peer.DataConnection
     ) => {
+      setConnections(
+        produce((mapDraft) => {
+          mapDraft.set(conn.peer, conn);
+        })
+      );
       conn.on("data", (data) => {
         console.log("Data-> ", data);
       });
