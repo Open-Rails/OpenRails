@@ -1,23 +1,27 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "paths": {
       "stream": ["./node_modules/readable-stream"],
       "path": ["./node_modules/path-browserify"]
     },
-    "target": "es5",
+
     "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
+    "allowJs": false,
+    "target": "es2017",
     "module": "esnext",
     "moduleResolution": "node",
+    "strict": true,
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "noImplicitAny": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noImplicitAny": true,
     "noEmit": true,
     "jsx": "react-jsx"
   },
