@@ -39,10 +39,11 @@ export const PeerConnectionContextProvider: React.FC = ({ children }) => {
   const connect = React.useCallback(
     (otherPeerId: string) => {
       const connection = peer.connect(otherPeerId)
+      // it's important to listen for messages BEFORE the connection completes, otherwise we will miss an initial
+      // message sent form our peer upon connection
+      initializeDataReciever(connection)
 
-      connection.on('open', () => {
-        initializeConnection(connection)
-      })
+      connection.on('open', () => initializeConnection(connection, true))
     },
     [peer]
   )
@@ -60,45 +61,54 @@ export const PeerConnectionContextProvider: React.FC = ({ children }) => {
     })
   }, [connections])
 
-  // called when we recieve an inbound connection request, or when our outbound connection request completes
-  const initializeConnection = React.useCallback((connection: Peer.DataConnection) => {
-    setConnections(
-      produce(mapDraft => {
-        mapDraft.set(connection.peer, connection)
-      })
-    )
-
-    // initial demo hello message
-    connection.send(
-      JSON.stringify({
-        publicKey: 'iqjeoiqjeoiblabla',
-        amount: '0.00001',
-        token: 'SOL'
-      })
-    )
-
+  const initializeDataReciever = React.useCallback((connection: Peer.DataConnection) => {
     connection.on('data', data => {
-      console.log('data recieved: ', data)
-    })
-
-    connection.on('error', err => {
-      console.error(err)
-      setConnections(
-        produce(mapDraft => {
-          mapDraft.delete(connection.peer)
-        })
-      )
-    })
-
-    connection.on('close', () => {
-      console.log(`closed connection with "${connection.peer}$`)
-      setConnections(
-        produce(mapDraft => {
-          mapDraft.delete(connection.peer)
-        })
-      )
+      console.log('data received: ', data)
     })
   }, [])
+
+  // called when we recieve an inbound connection request, or when our outbound connection request completes
+  const initializeConnection = React.useCallback(
+    (connection: Peer.DataConnection, skipDataInitialization?: boolean) => {
+      console.log('connection established with: ', connection.peer)
+
+      setConnections(
+        produce(mapDraft => {
+          mapDraft.set(connection.peer, connection)
+        })
+      )
+
+      if (!skipDataInitialization) initializeDataReciever(connection)
+
+      // initial demo hello message
+      connection.send(
+        JSON.stringify({
+          publicKey: 'iqjeoiqjeoiblabla',
+          amount: '0.00001',
+          token: 'SOL'
+        })
+      )
+
+      connection.on('error', err => {
+        console.error(err)
+        setConnections(
+          produce(mapDraft => {
+            mapDraft.delete(connection.peer)
+          })
+        )
+      })
+
+      connection.on('close', () => {
+        console.log(`closed connection with "${connection.peer}$`)
+        setConnections(
+          produce(mapDraft => {
+            mapDraft.delete(connection.peer)
+          })
+        )
+      })
+    },
+    [setConnections]
+  )
 
   // establishes handlers for signal-server events
   React.useEffect(() => {
