@@ -1,46 +1,20 @@
-# Getting Started with Create React App
+## To Do:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- Figure out how to set your host url, and deploy to a server rather than just localhost
+- The event listeners are not being handled symmetrically; they should be handled the same regardless of whether or not you are the caller or the answerer.
+- We should look into creating rooms rather than individual identifiers, that way people can join a mesh-network rather than connecting to an individual. Right now you can have non-mesh network connections with multiple participants.
+- Configure our own TURN server. There are commented out pieces of code to set a TURN server
+- Test with Safari, not just Chrome and Firefox
+- Test on mobile
 
-## Available Scripts
+## To Research:
 
-In the project directory, you can run:
+- Connections should be able to survive a browser-refresh or changing the browser page (non-SPA pages); maybe cache the identifier of the other person and attempt to reconnect. Do we need our peer signal server to do this, or can it be done directly after we establish a connection?
+- The terminology is SUPER confusing; i.e. a 'peer' is actually a server, not a person. A 'connection' is a person. What terminology does Wallet Connect use?
+- Is there a way to know if the other person recieved our message or not? A confirmation would be nice
+- Are the webrtc messages being sent encrypted? How does that encryption work?
 
-### `npm start`
+## Notes:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Connections to other people will survive the peer-server being disconnected from.
+- When FireFox is connected to a remote-peer, and that peer closes the connection, Firefox will not emit an event that it was closed. This isn't a big deal, firefox will recieve an 'ICE failed' error after 30 seconds. Unfortunately when Firefox attempts to send a message to a disconnected participant there will be no error emitted.

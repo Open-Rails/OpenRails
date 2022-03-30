@@ -1,5 +1,5 @@
 {
-  "name": "@untitledpay/server",
+  "name": "@openrails/server",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -20,7 +20,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "dev": "yarn run start:dev"
+    "dev": "yarn run start:dev",
+    "peerjs": "peerjs --port 9000 --path /myapp"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
@@ -32,6 +33,7 @@
     "nanoid": "^3.3.2",
     "passport": "^0.5.2",
     "passport-local": "^1.0.0",
+    "peer": "^0.6.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",

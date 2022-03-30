@@ -25,7 +25,7 @@ export const PeerConnection = () => {
     }
   }, [connect, connectTo, setConnectTo]);
 
-  const shareUrl = `http://localhost:3000/?connect-to=${myPeerId}`;
+  const shareURL = `http://localhost:3000/?connect-to=${myPeerId}`;
 
   return (
     <Card elevation={8}>
@@ -33,8 +33,8 @@ export const PeerConnection = () => {
         <p>Peer connection demo</p>
         <p>Your Peer ID is {myPeerId}</p>
 
-        {myPeerId && <QRCodeCanvas value={shareUrl} />}
-        <p>{`http://localhost:3000/?connect-to=${myPeerId}`}</p>
+        {myPeerId && <QRCodeCanvas value={shareURL} />}
+        <p>{shareURL}</p>
         <br />
         <TextField
           label="Other's Peer ID"
