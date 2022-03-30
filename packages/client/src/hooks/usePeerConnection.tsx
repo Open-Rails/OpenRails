@@ -39,11 +39,9 @@ export const PeerConnectionContextProvider: React.FC = ({ children }) => {
   const connect = React.useCallback(
     (otherPeerId: string) => {
       const connection = peer.connect(otherPeerId)
-      // it's important to listen for messages BEFORE the connection completes, otherwise we will miss an initial
-      // message sent form our peer upon connection
-      initializeDataReciever(connection)
 
-      connection.on('open', () => initializeConnection(connection, true))
+      // data we try to send prior to the connection being opened will NOT be queued and will simply be lost
+      connection.on('open', () => initializeConnection(connection))
     },
     [peer]
   )
@@ -61,15 +59,9 @@ export const PeerConnectionContextProvider: React.FC = ({ children }) => {
     })
   }, [connections])
 
-  const initializeDataReciever = React.useCallback((connection: Peer.DataConnection) => {
-    connection.on('data', data => {
-      console.log('data received: ', data)
-    })
-  }, [])
-
   // called when we recieve an inbound connection request, or when our outbound connection request completes
   const initializeConnection = React.useCallback(
-    (connection: Peer.DataConnection, skipDataInitialization?: boolean) => {
+    (connection: Peer.DataConnection) => {
       console.log('connection established with: ', connection.peer)
 
       setConnections(
@@ -78,16 +70,33 @@ export const PeerConnectionContextProvider: React.FC = ({ children }) => {
         })
       )
 
-      if (!skipDataInitialization) initializeDataReciever(connection)
-
       // initial demo hello message
-      connection.send(
-        JSON.stringify({
-          publicKey: 'iqjeoiqjeoiblabla',
-          amount: '0.00001',
-          token: 'SOL'
+      // Note that for the reciever, just because we recieved a 'connect' event does not mean that that connection
+      // is ready for read / write. Instead we wait for the connection to become open, and then we send our initial
+      // message
+      if (connection.open) {
+        connection.send(
+          JSON.stringify({
+            publicKey: 'iqjeoiqjeoiblabla',
+            amount: '0.00001',
+            token: 'SOL'
+          })
+        )
+      } else {
+        connection.on('open', () => {
+          connection.send(
+            JSON.stringify({
+              publicKey: 'iqjeoiqjeoiblabla',
+              amount: '0.00001',
+              token: 'SOL'
+            })
+          )
         })
-      )
+      }
+
+      connection.on('data', data => {
+        console.log('data received: ', data)
+      })
 
       connection.on('error', err => {
         console.error(err)
