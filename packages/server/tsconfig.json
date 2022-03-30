@@ -1,6 +1,4 @@
 {
-  "extends": "../../tsconfig.json",
-
   "compilerOptions": {
     "module": "commonjs",
     "declaration": true,
@@ -14,12 +12,11 @@
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "esModuleInterop": true
-  },
-  "exclude": ["./dist/**/*"]
+  }
 }

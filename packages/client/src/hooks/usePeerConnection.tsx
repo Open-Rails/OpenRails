@@ -2,8 +2,7 @@ import React from 'react'
 import Peer from 'peerjs'
 import produce from 'immer'
 
-const PEER_DOMAIN =
-  process.env.NODE_ENV === 'production' ? '/' : process.env.REACT_APP_PEER_DOMAIN || 'localhost'
+const PEER_DOMAIN = process.env.REACT_APP_PEER_DOMAIN || 'localhost'
 
 export interface IPeerConnectionContext {
   connect(otherPeerId: string): void
