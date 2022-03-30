@@ -60,9 +60,4 @@ export class AppController {
 
     return { nonce };
   }
-
-  @Get('/')
-  async HelloWorld() {
-    return 'Hello World!';
-  }
 }
