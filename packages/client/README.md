@@ -1,12 +1,12 @@
 ## To Do:
 
-- Figure out how to set your host url, and deploy to a server rather than just localhost
-- The event listeners are not being handled symmetrically; they should be handled the same regardless of whether or not you are the caller or the answerer.
+- Be able to deploy to heroku. Currently the PeerJS server is not connecting to the client
 - We should look into creating rooms rather than individual identifiers, that way people can join a mesh-network rather than connecting to an individual. Right now you can have non-mesh network connections with multiple participants.
 - Configure our own TURN server. There are commented out pieces of code to set a TURN server
 - Test with Safari, not just Chrome and Firefox
 - Test on mobile
 - Have a canvas-logger for messages
+- Use port 443 and 'secure: true' in the client
 
 ## To Research:
 
