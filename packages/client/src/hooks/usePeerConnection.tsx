@@ -2,6 +2,11 @@ import React from 'react'
 import Peer from 'peerjs'
 import produce from 'immer'
 
+const BASE_URI =
+  process.env.NODE_ENV === 'production'
+    ? '/'
+    : process.env.REACT_APP_API_URL?.concat('/') || 'http://localhost:9000/'
+
 export interface IPeerConnectionContext {
   connect(otherPeerId: string): void
   sendData(): void
@@ -20,7 +25,7 @@ export const PeerConnectionContextProvider: React.FC = ({ children }) => {
   const [peer, setPeer] = React.useState(
     () =>
       new Peer({
-        host: 'localhost',
+        host: BASE_URI,
         port: 9000,
         debug: 2,
         path: '/myapp',
