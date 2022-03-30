@@ -16,4 +16,4 @@ React Client app: 3000 (only used when running in dev mode)
 
 ## .env variables
 
-REACT_APP_PEER_URL: optional. The url of the peer-server. This is only used in development mode. Defaults to http://localhost if not available.
+REACT_APP_PEER_DOMAIN: optional. The domain of the peer-server, such as `openrails-staging.herokuapp.com`. This is only used in development mode. Defaults to `localhost` if not available.

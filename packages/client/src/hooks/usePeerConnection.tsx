@@ -2,10 +2,10 @@ import React from 'react'
 import Peer from 'peerjs'
 import produce from 'immer'
 
-const BASE_URI =
+const PEER_DOMAIN =
   process.env.NODE_ENV === 'production'
     ? '/'
-    : process.env.REACT_APP_PEER_URL?.concat('/') || 'http://localhost'
+    : process.env.REACT_APP_PEER_DOMAIN?.concat('/') || 'localhost'
 
 export interface IPeerConnectionContext {
   connect(otherPeerId: string): void
@@ -25,7 +25,7 @@ export const PeerConnectionContextProvider: React.FC = ({ children }) => {
   const [peer, setPeer] = React.useState(
     () =>
       new Peer({
-        host: BASE_URI,
+        host: PEER_DOMAIN,
         port: 9000,
         debug: 2,
         path: '/myapp',
