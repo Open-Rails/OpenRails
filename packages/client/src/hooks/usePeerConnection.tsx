@@ -19,7 +19,6 @@ export const PeerConnectionContextProvider: React.FC = ({ children }) => {
   const [myPeerId, setMyPeerId] = React.useState<string>()
   const [peerStatus, setPeerStatus] = React.useState<PeerStatus>('connecting')
   const [connections, setConnections] = React.useState(new Map<string, Peer.DataConnection>())
-
   const [peer, setPeer] = React.useState(
     () =>
       new Peer({
@@ -37,25 +36,74 @@ export const PeerConnectionContextProvider: React.FC = ({ children }) => {
       })
   )
 
-  React.useEffect(() => {
-    if (!peer) throw new Error('No peer created bitch')
+  // method for connecting to remote peer
+  const connect = React.useCallback(
+    (otherPeerId: string) => {
+      const connection = peer.connect(otherPeerId)
 
-    const onConnectionHandler = (conn: Peer.DataConnection) => {
+      connection.on('open', () => {
+        initializeConnection(connection)
+      })
+    },
+    [peer]
+  )
+
+  // method for sending data to remote peer
+  const sendData = React.useCallback(() => {
+    return connections.forEach((conn, connId) => {
+      const sentMessage = JSON.stringify({
+        msg: 'message',
+        description: 'description',
+        sentTo: connId
+      })
+      console.log('sentMessage->', sentMessage)
+      conn.send(sentMessage)
+    })
+  }, [connections])
+
+  // called when we recieve an inbound connection request, or when our outbound connection request completes
+  const initializeConnection = React.useCallback((connection: Peer.DataConnection) => {
+    setConnections(
+      produce(mapDraft => {
+        mapDraft.set(connection.peer, connection)
+      })
+    )
+
+    // initial demo hello message
+    connection.send(
+      JSON.stringify({
+        publicKey: 'iqjeoiqjeoiblabla',
+        amount: '0.00001',
+        token: 'SOL'
+      })
+    )
+
+    connection.on('data', data => {
+      console.log('data recieved: ', data)
+    })
+
+    connection.on('error', err => {
+      console.error(err)
       setConnections(
         produce(mapDraft => {
-          mapDraft.set(conn.peer, conn)
+          mapDraft.delete(connection.peer)
         })
       )
+    })
 
-      conn.on('data', data => {
-        console.log('Data-> ', data)
-      })
+    connection.on('close', () => {
+      console.log(`closed connection with "${connection.peer}$`)
+      setConnections(
+        produce(mapDraft => {
+          mapDraft.delete(connection.peer)
+        })
+      )
+    })
+  }, [])
 
-      conn.on('open', () => {
-        console.log('Opened')
-        conn.send('hello!')
-      })
-    }
+  // establishes handlers for signal-server events
+  React.useEffect(() => {
+    if (!peer) throw new Error('No peer created bitch')
 
     const onDisconnectionHandler = () => {
       console.log('Peer disconnected')
@@ -76,75 +124,19 @@ export const PeerConnectionContextProvider: React.FC = ({ children }) => {
     }
 
     peer.on('error', onErrorHandler)
-    peer.on('connection', onConnectionHandler)
+    peer.on('connection', initializeConnection)
     peer.on('open', onOpenHandler)
     peer.on('disconnected', onDisconnectionHandler)
     peer.on('close', onClosedHandler)
 
     return () => {
       peer.off('error', onErrorHandler)
-      peer.off('connection', onConnectionHandler)
+      peer.off('connection', initializeConnection)
       peer.off('open', onOpenHandler)
       peer.off('disconnected', onDisconnectionHandler)
       peer.off('close', onClosedHandler)
     }
   }, [peer])
-
-  const connect = React.useCallback(
-    (otherPeerId: string) => {
-      const connection = peer.connect(otherPeerId)
-      connection.on('open', () => {
-        setConnections(
-          produce(mapDraft => {
-            mapDraft.set(otherPeerId, connection)
-          })
-        )
-
-        connection.send(
-          JSON.stringify({
-            publicKey: 'iqjeoiqjeoiblabla',
-            amount: '0.00001',
-            token: 'SOL'
-          })
-        )
-      })
-
-      connection.on('data', data => {
-        console.log('connection data', data)
-      })
-
-      connection.on('error', err => {
-        console.error(err)
-        setConnections(
-          produce(mapDraft => {
-            mapDraft.delete(otherPeerId)
-          })
-        )
-      })
-
-      connection.on('close', () => {
-        console.log(`closed connection with "${otherPeerId}$`)
-        setConnections(
-          produce(mapDraft => {
-            mapDraft.delete(otherPeerId)
-          })
-        )
-      })
-    },
-    [peer]
-  )
-
-  const sendData = React.useCallback(() => {
-    return connections.forEach((conn, connId) => {
-      const sentMessage = JSON.stringify({
-        msg: 'message',
-        description: 'description',
-        sentTo: connId
-      })
-      console.log('sentMessage->', sentMessage)
-      conn.send(sentMessage)
-    })
-  }, [connections])
 
   const value: IPeerConnectionContext = { connect, myPeerId, sendData }
 
