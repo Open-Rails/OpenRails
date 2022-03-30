@@ -5,7 +5,7 @@ import produce from 'immer'
 const BASE_URI =
   process.env.NODE_ENV === 'production'
     ? '/'
-    : process.env.REACT_APP_API_URL?.concat('/') || 'http://localhost:9000/'
+    : process.env.REACT_APP_PEER_URL?.concat('/') || 'http://localhost'
 
 export interface IPeerConnectionContext {
   connect(otherPeerId: string): void
