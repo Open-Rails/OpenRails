@@ -10,7 +10,7 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
 
   const PORT = process.env.PORT || configService.get('SERVER_PORT') || '8081';
-  await app.listen(PORT);
+  const server = await app.listen(PORT);
 
   console.log(`Server running on ${await app.getUrl()}`);
 }
