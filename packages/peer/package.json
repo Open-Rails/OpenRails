@@ -5,7 +5,7 @@
     "peer": "^0.6.1"
   },
   "scripts": {
-    "start": "",
+    "start": "peerjs --port $PORT --path /myapp",
     "dev": "peerjs --port 9000 --path /myapp"
   }
 }
