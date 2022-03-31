@@ -1,31 +1,32 @@
-import React from "react";
-import usePeerConnectionContext from "../../hooks/usePeerConnection";
-import { useQueryParam, StringParam } from "use-query-params";
+import React from 'react'
+import usePeerConnectionContext from '../../hooks/usePeerConnection'
+import { useQueryParam, StringParam } from 'use-query-params'
 
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
+import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
 
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import CardActions from '@mui/material/CardActions'
 
+import { QRCodeCanvas } from 'qrcode.react'
 
-import { QRCodeCanvas } from "qrcode.react";
+const PEER_DOMAIN = (process.env.REACT_APP_PEER_DOMAIN || 'localhost:3000').concat('/myapp')
 
 export const PeerConnection = () => {
-  const { connect, myPeerId, sendData} = usePeerConnectionContext();
-  const [otherPeerID, setOtherPeerID] = React.useState("");
+  const { connect, myPeerId, sendData } = usePeerConnectionContext()
+  const [otherPeerID, setOtherPeerID] = React.useState('')
 
-  const [connectTo, setConnectTo] = useQueryParam("connect-to", StringParam);
+  const [connectTo, setConnectTo] = useQueryParam('connect-to', StringParam)
 
   React.useEffect(() => {
     if (connectTo) {
-      setOtherPeerID(connectTo);
-      setConnectTo(undefined);
+      setOtherPeerID(connectTo)
+      setConnectTo(undefined)
     }
-  }, [connect, connectTo, setConnectTo]);
+  }, [connect, connectTo, setConnectTo])
 
-  const shareURL = `http://localhost:3000/?connect-to=${myPeerId}`;
+  const shareURL = `https://${PEER_DOMAIN}/?connect-to=${myPeerId}`
 
   return (
     <Card elevation={8}>
@@ -40,22 +41,18 @@ export const PeerConnection = () => {
           label="Other's Peer ID"
           type="text"
           value={otherPeerID}
-          onChange={(event) => {
-            setOtherPeerID(event.target.value);
+          onChange={event => {
+            setOtherPeerID(event.target.value)
           }}
         />
       </CardContent>
 
-
       <CardActions>
         <Button onClick={() => connect(otherPeerID)}>Connect to Peer</Button>
         <Button onClick={sendData}>Send Data</Button>
-
-
-
       </CardActions>
     </Card>
-  );
-};
+  )
+}
 
-export default PeerConnection;
+export default PeerConnection
