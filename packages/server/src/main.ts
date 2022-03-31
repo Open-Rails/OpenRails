@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
+import { ExpressPeerServer } from 'peer';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
@@ -9,6 +10,11 @@ async function bootstrap() {
   });
   const configService = app.get(ConfigService);
 
+  const peerServer = ExpressPeerServer(app.getHttpServer(), {
+    path: '/',
+  });
+
+  app.use('/peer', peerServer);
   const PORT = process.env.PORT || configService.get('SERVER_PORT') || '8081';
   const server = await app.listen(PORT);
 

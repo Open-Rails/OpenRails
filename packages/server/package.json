@@ -29,6 +29,7 @@
     "@nestjs/passport": "^8.2.1",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/serve-static": "^2.2.2",
+    "@solana/web3.js": "^1.37.0",
     "concurrently": "^7.0.0",
     "nanoid": "^3.3.2",
     "passport": "^0.5.2",
