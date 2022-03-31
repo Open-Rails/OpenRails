@@ -14,8 +14,8 @@
     "publish": "lerna run tsc && lerna publish",
     "build": "yarn workspaces foreach run build",
     "start": "cd packages/server && yarn run start:prod",
-    "dev": "concurrently -n client,server,peer \"cd packages/client && yarn dev\" \"cd packages/server && yarn dev\" \"cd packages/peer && yarn dev\"",
-    "dev-yarn": "yarn workspaces foreach -pi --topological-dev --include '{@openrails/server, @openrails/client, @openrails/peer}' run dev"
+    "dev": "concurrently -n client,server \"cd packages/client && yarn dev\" \"cd packages/server && yarn dev\"",
+    "dev-yarn": "yarn workspaces foreach -pi --topological-dev --include '{@openrails/server, @openrails/client}' run dev"
   },
   "workspaces": [
     "packages/*"
