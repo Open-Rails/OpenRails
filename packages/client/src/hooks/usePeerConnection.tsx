@@ -22,7 +22,7 @@ export const PeerConnectionContextProvider: React.FC = ({ children }) => {
     let peerConfig = {
       host: PEER_DOMAIN,
       debug: 2,
-      path: '/',
+      path: '/peer',
       // key: 'peerjs',
       config: {
         // iceServers: [
