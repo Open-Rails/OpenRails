@@ -15,7 +15,7 @@ import { Stack, Typography } from '@mui/material'
 import { ChatMessage } from '../../hooks/useChat'
 import useChatContext from '../../hooks/useChat'
 
-const ORIGIN = process.env.REACT_APP_URL || 'http://localhost:3000'
+const ORIGIN = process.env.REACT_APP_SERVER_URL || 'http://localhost:3000'
 
 const Message: React.FC<ChatMessage> = ({ senderId, content }) => {
   return (
