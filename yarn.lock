@@ -3769,6 +3769,7 @@ __metadata:
     "@types/supertest": ^2.0.11
     "@typescript-eslint/eslint-plugin": ^5.0.0
     "@typescript-eslint/parser": ^5.0.0
+    concurrently: ^7.0.0
     eslint: ^8.0.1
     eslint-config-prettier: ^8.3.0
     eslint-plugin-prettier: ^4.0.0
@@ -3776,6 +3777,7 @@ __metadata:
     nanoid: ^3.3.2
     passport: ^0.5.2
     passport-local: ^1.0.0
+    peer: ^0.6.1
     prettier: ^2.3.2
     reflect-metadata: ^0.1.13
     rimraf: ^3.0.2
