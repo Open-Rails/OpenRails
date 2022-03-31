@@ -2,10 +2,9 @@
   "name": "root",
   "private": true,
   "engines": {
-    "node": "16.14"
+    "node": "17.3.1"
   },
   "devDependencies": {
-    "@types/node": "^17.0.18",
     "concurrently": "^7.0.0",
     "lerna": "^4.0.0",
     "ts-node": "^10.5.0",
@@ -21,5 +20,5 @@
   "workspaces": [
     "packages/*"
   ],
-  "packageManager": "yarn@3.2.0"
+  "packageManager": "yarn@3.1.1"
 }
