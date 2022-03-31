@@ -1,6 +1,7 @@
 import React from "react";
 import Peer from "peerjs";
 import produce from "immer";
+import useChatContext from "./useChat";
 
 const PEER_DOMAIN = "/peer"; //process.env.REACT_APP_PEER_DOMAIN || 'localhost'
 
@@ -22,6 +23,7 @@ const PeerConnectionContext = React.createContext<IPeerConnectionContext>(
 );
 
 export const PeerConnectionContextProvider: React.FC = ({ children }) => {
+  const { pushMessage } = useChatContext();
   const [myPeerId, setMyPeerId] = React.useState<string>();
   const [peerStatus, setPeerStatus] = React.useState<PeerStatus>("connecting");
   const [connections, setConnections] = React.useState(
@@ -67,6 +69,8 @@ export const PeerConnectionContextProvider: React.FC = ({ children }) => {
         description: "description",
         sentTo: connId,
       });
+      pushMessage({ content: sentMessage, senderId: peer.id });
+
       console.log("sentMessage->", sentMessage);
       conn.send(sentMessage);
     });
@@ -109,6 +113,8 @@ export const PeerConnectionContextProvider: React.FC = ({ children }) => {
 
       connection.on("data", (data) => {
         console.log("data received: ", data);
+
+        pushMessage({ content: data, senderId: connection.peer });
       });
 
       connection.on("error", (err) => {

@@ -1,32 +1,45 @@
-import React from 'react'
-import usePeerConnectionContext from '../../hooks/usePeerConnection'
-import { useQueryParam, StringParam } from 'use-query-params'
+import React from "react";
+import usePeerConnectionContext from "../../hooks/usePeerConnection";
+import { useQueryParam, StringParam } from "use-query-params";
 
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import CardActions from '@mui/material/CardActions'
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import Box from "@mui/material/Box";
 
-import { QRCodeCanvas } from 'qrcode.react'
+import { QRCodeCanvas } from "qrcode.react";
+import { Stack, Typography } from "@mui/material";
+import { ChatMessage } from "../../hooks/useChat";
+import useChatContext from "../../hooks/useChat";
 
-const URL = process.env.REACT_APP_URL || 'localhost:3000'
+const URL = process.env.REACT_APP_URL || "localhost:3000";
+
+const Message: React.FC<ChatMessage> = ({ senderId, content }) => {
+  return (
+    <Card elevation={8} style={{marginTop: "4px"}}>
+      <Typography align="right" color="GrayText" variant="caption">{senderId}</Typography>
+      <Typography align="left" >{content}</Typography>
+    </Card>
+  );
+};
 
 export const PeerConnection = () => {
-  const { connect, myPeerId, sendData } = usePeerConnectionContext()
-  const [otherPeerID, setOtherPeerID] = React.useState('')
-
-  const [connectTo, setConnectTo] = useQueryParam('connect-to', StringParam)
+  const { connect, myPeerId, sendData } = usePeerConnectionContext();
+  const [otherPeerID, setOtherPeerID] = React.useState("");
+  const { messages } = useChatContext();
+  const [connectTo, setConnectTo] = useQueryParam("connect-to", StringParam);
 
   React.useEffect(() => {
     if (connectTo) {
-      setOtherPeerID(connectTo)
-      setConnectTo(undefined)
+      setOtherPeerID(connectTo);
+      setConnectTo(undefined);
     }
-  }, [connect, connectTo, setConnectTo])
+  }, [connect, connectTo, setConnectTo]);
 
-  const shareURL = `https://${URL}/?connect-to=${myPeerId}`
+  const shareURL = `https://${URL}/?connect-to=${myPeerId}`;
 
   return (
     <Card elevation={8}>
@@ -41,8 +54,8 @@ export const PeerConnection = () => {
           label="Other's Peer ID"
           type="text"
           value={otherPeerID}
-          onChange={event => {
-            setOtherPeerID(event.target.value)
+          onChange={(event) => {
+            setOtherPeerID(event.target.value);
           }}
         />
       </CardContent>
@@ -51,8 +64,14 @@ export const PeerConnection = () => {
         <Button onClick={() => connect(otherPeerID)}>Connect to Peer</Button>
         <Button onClick={sendData}>Send Data</Button>
       </CardActions>
-    </Card>
-  )
-}
 
-export default PeerConnection
+      <Stack>
+        {messages.map((msg, idx) => (
+          <Message key={idx} {...msg} />
+        ))}
+      </Stack>
+    </Card>
+  );
+};
+
+export default PeerConnection;
