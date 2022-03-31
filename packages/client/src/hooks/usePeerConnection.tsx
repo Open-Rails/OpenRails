@@ -22,7 +22,7 @@ export const PeerConnectionContextProvider: React.FC = ({ children }) => {
     () =>
       new Peer({
         host: PEER_DOMAIN,
-        // port: 9000,
+        port: process.env.NODE_ENV === 'development' ? 9000 : undefined,
         debug: 2,
         path: '/myapp',
         // key: 'peerjs',
