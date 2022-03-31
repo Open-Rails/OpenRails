@@ -2,7 +2,7 @@ import React from 'react'
 import Peer from 'peerjs'
 import produce from 'immer'
 
-const PEER_DOMAIN = process.env.REACT_APP_PEER_DOMAIN || 'localhost'
+const PEER_DOMAIN = "/peer" //process.env.REACT_APP_PEER_DOMAIN || 'localhost'
 
 export interface IPeerConnectionContext {
   connect(otherPeerId: string): void
@@ -22,7 +22,7 @@ export const PeerConnectionContextProvider: React.FC = ({ children }) => {
     let peerConfig = {
       host: PEER_DOMAIN,
       debug: 2,
-      path: '/myapp',
+      path: '/',
       // key: 'peerjs',
       config: {
         // iceServers: [
@@ -34,7 +34,7 @@ export const PeerConnectionContextProvider: React.FC = ({ children }) => {
 
     if (process.env.NODE_ENV === 'development')
       //@ts-ignore
-      peerConfig.port = 9000
+      peerConfig.port = 8081
 
     return new Peer(peerConfig)
   })
