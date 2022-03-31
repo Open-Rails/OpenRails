@@ -18,22 +18,26 @@ export const PeerConnectionContextProvider: React.FC = ({ children }) => {
   const [myPeerId, setMyPeerId] = React.useState<string>()
   const [peerStatus, setPeerStatus] = React.useState<PeerStatus>('connecting')
   const [connections, setConnections] = React.useState(new Map<string, Peer.DataConnection>())
-  const [peer, setPeer] = React.useState(
-    () =>
-      new Peer({
-        host: PEER_DOMAIN,
-        port: process.env.NODE_ENV === 'development' ? 9000 : undefined,
-        debug: 2,
-        path: '/myapp',
-        // key: 'peerjs',
-        config: {
-          // iceServers: [
-          //   { urls: ['stun:stun.l.google.com:19302'] },
-          //   { urls: ['turn:homeo@turn.bistri.com:80'], credential: 'homeo' }
-          // ]
-        }
-      })
-  )
+  const [peer, setPeer] = React.useState(() => {
+    let peerConfig = {
+      host: PEER_DOMAIN,
+      debug: 2,
+      path: '/myapp',
+      // key: 'peerjs',
+      config: {
+        // iceServers: [
+        //   { urls: ['stun:stun.l.google.com:19302'] },
+        //   { urls: ['turn:homeo@turn.bistri.com:80'], credential: 'homeo' }
+        // ]
+      }
+    }
+
+    if (process.env.NODE_ENV === 'development')
+      //@ts-ignore
+      peerConfig.port = 9000
+
+    return new Peer(peerConfig)
+  })
 
   // method for connecting to remote peer
   const connect = React.useCallback(
