@@ -11,7 +11,7 @@ import CardActions from '@mui/material/CardActions'
 
 import { QRCodeCanvas } from 'qrcode.react'
 
-const PEER_DOMAIN = (process.env.REACT_APP_PEER_DOMAIN || 'localhost:3000').concat('/myapp')
+const URL = process.env.REACT_APP_URL || 'localhost:3000'
 
 export const PeerConnection = () => {
   const { connect, myPeerId, sendData } = usePeerConnectionContext()
@@ -26,7 +26,7 @@ export const PeerConnection = () => {
     }
   }, [connect, connectTo, setConnectTo])
 
-  const shareURL = `https://${PEER_DOMAIN}/?connect-to=${myPeerId}`
+  const shareURL = `https://${URL}/?connect-to=${myPeerId}`
 
   return (
     <Card elevation={8}>
