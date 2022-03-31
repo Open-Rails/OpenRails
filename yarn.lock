@@ -3744,14 +3744,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@openrails/peer@workspace:packages/peer":
-  version: 0.0.0-use.local
-  resolution: "@openrails/peer@workspace:packages/peer"
-  dependencies:
-    peer: ^0.6.1
-  languageName: unknown
-  linkType: soft
-
 "@openrails/server@*, @openrails/server@workspace:packages/server":
   version: 0.0.0-use.local
   resolution: "@openrails/server@workspace:packages/server"
