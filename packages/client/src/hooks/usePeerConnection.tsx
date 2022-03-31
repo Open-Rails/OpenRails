@@ -22,10 +22,10 @@ export const PeerConnectionContextProvider: React.FC = ({ children }) => {
     () =>
       new Peer({
         host: PEER_DOMAIN,
-        port: 9000,
+        // port: 9000,
         debug: 2,
         path: '/myapp',
-        key: 'peerjs',
+        // key: 'peerjs',
         config: {
           // iceServers: [
           //   { urls: ['stun:stun.l.google.com:19302'] },
