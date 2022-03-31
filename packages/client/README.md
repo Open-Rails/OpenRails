@@ -11,14 +11,29 @@
 ## To Research:
 
 - Connections should be able to survive a browser-refresh or changing the browser page (non-SPA pages); maybe cache the identifier of the other person and attempt to reconnect. Do we need our peer signal server to do this, or can it be done directly after we establish a connection?
-- The terminology is SUPER confusing; i.e. a 'peer' is actually a server, not a person. A 'connection' is a person. What terminology does Wallet Connect use?
+- PeerJS's terminology is SUPER confusing; i.e. a 'peer' is actually a server, not a person. A 'connection' is a person. What terminology does Wallet Connect use?
 - Is there a way to know if the other person recieved our message or not? A confirmation would be nice
 - Are the webrtc messages being sent encrypted? How does that encryption work?
-- Test to see if the webrtc connection remains on a mobile device when the mobile device changes its network (same for a desktop computer)
-- For mobile devices, what happens when the page is backgrounded? Can two mobile-pages on the same device talk to each other?
+- Can two mobile-pages on the same device talk to each other?
+- Look into EasyRTC and SimpleWebRTC as alternatives to PeerJS
+
+## Robustness Tests:
+
+- Desktop Browser <-> Mobile Browser:
+  - Mobile recieves messages when backgrounded (other tab, or other app is in focus)
+  - Mobile reconnects automatically when airplane mode is turned on and then off during a connection, however the WebRTC connection can only be re-established after a disruption of less than 10 seconds or so, otherwise it's considered dead and won't auto-reconnect. Messages recieved or sent
+  - My connection fails over cellular... this is likely due to a lack of a TURN server.
+  -
+
+## Robustness Needed:
+
+- If the WebRTC connection breaks, the other side of the connection should recall their peer's ID and the url of their signal-server. They should both try to reconnect by using that server automatically.
+- How do we need that the WebRTC connection has broken?
+- Connections need to survive refresh and browser-closes, probably by remembering the other party's location.
 
 ## Notes:
 
+- Apparently we are using Google's public STUN servers. We might want to use our own at some point.
 - Connections to other people will survive the peer-server being disconnected from.
 - When FireFox is connected to a remote-peer, and that peer closes the connection, Firefox will not emit an event that it was closed. This isn't a big deal, firefox will recieve an 'ICE failed' error after 30 seconds. Unfortunately when Firefox attempts to send a message to a disconnected participant there will be no error emitted.
 
