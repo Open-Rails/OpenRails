@@ -1,35 +1,44 @@
 ## To Do:
 
-- Be able to deploy to heroku. Currently the PeerJS server is not connecting to the client
 - We should look into creating rooms rather than individual identifiers, that way people can join a mesh-network rather than connecting to an individual. Right now you can have non-mesh network connections with multiple participants.
-- Configure our own TURN server. There are commented out pieces of code to set a TURN server
 - Test with Safari, not just Chrome and Firefox
-- Test on mobile
-- Have a canvas-logger for messages
 - Use port 443 and 'secure: true' in the client
+- PeerJS's terminology is SUPER confusing; i.e. a 'peer' is actually a server, not a person. A 'connection' is a person. We need to change all this terminology. Look at Wallet Connect's terminology.
+- Add Copy URL button
+- Auto-connect upon visiting url
+- Deploy connect-server to a url of its own
+- Update documentation frontpage
+- Submit YC application
 
 ## To Research:
 
 - Connections should be able to survive a browser-refresh or changing the browser page (non-SPA pages); maybe cache the identifier of the other person and attempt to reconnect. Do we need our peer signal server to do this, or can it be done directly after we establish a connection?
-- PeerJS's terminology is SUPER confusing; i.e. a 'peer' is actually a server, not a person. A 'connection' is a person. What terminology does Wallet Connect use?
 - Is there a way to know if the other person recieved our message or not? A confirmation would be nice
 - Are the webrtc messages being sent encrypted? How does that encryption work?
 - Can two mobile-pages on the same device talk to each other?
 - Look into EasyRTC and SimpleWebRTC as alternatives to PeerJS
+- How do we know when a WebRTC connection has failed? WebRTC uses SCTP, it's own transport-layer protocol, which has TCP-like retransmission properties.
+- Learn about NFC
+- Think of a way to implement a blockchain notification-system to your wallet
+- Learn more about Waku and Libp2p
 
 ## Robustness Tests:
 
 - Desktop Browser <-> Mobile Browser:
-  - Mobile recieves messages when backgrounded (other tab, or other app is in focus)
-  - Mobile reconnects automatically when airplane mode is turned on and then off during a connection, however the WebRTC connection can only be re-established after a disruption of less than 10 seconds or so, otherwise it's considered dead and won't auto-reconnect. Messages recieved or sent
-  - My connection fails over cellular... this is likely due to a lack of a TURN server.
-  -
+
+  - Mobile recieves messages when backgrounded (other tab, or other app is in focus), as long as it's brought back within 20 seconds or so. Otherwise the WebRTC connection dies.
+  - Mobile reconnects automatically when airplane mode is turned on and then off during a connection, however the WebRTC connection can only be re-established after a disruption of less than 10 seconds or so, otherwise it's considered dead and won't auto-reconnect. Messages recieved or sent during the disconnected period will be recieved upon reconnect.
+  - A TURN server is needed for cellular connections (maybe not always, but for my testing this was the case).
+  - If you connect using a TURN server, and then switch to a connection that doesn't need a TURN server, the TURN server will continue to be used, and the connection will survive. (For example, connect on cellular and then switch to wifi.) However if you connect without a TURN server, and later need one, the connection will die rather than being upraded. (For example, connect on wifi and then switch to cellular.)
+
+- Mobile Browser <-> Mobile Browser (same device):
+  - Tabs within the same browser can connect and talk to each other. The Connections will persist as long as at least one the tabs is open. If the browser-app is backgrounded, or another app is switched to, then the connection will terminate after around 15 seconds.
 
 ## Robustness Needed:
 
 - If the WebRTC connection breaks, the other side of the connection should recall their peer's ID and the url of their signal-server. They should both try to reconnect by using that server automatically.
-- How do we need that the WebRTC connection has broken?
-- Connections need to survive refresh and browser-closes, probably by remembering the other party's location.
+- Connections need to survive refresh and browser-closes, probably by remembering the other party's url + id.
+- Messages need to be idempotent, in the sense that if the same message is sent multiple times, it should only be received once. (This is probably already the case--just don't allow multiple-connect requests if the firt one is taking a while to load.)
 
 ## Notes:
 
