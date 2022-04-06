@@ -1,0 +1,6 @@
+[submodule "examples/p2p-wallet-web"]
+	path = examples/p2p-wallet-web
+	url = https://github.com/Open-Rails/p2p-wallet-web
+[submodule "examples/expo-solana-wallet"]
+	path = examples/expo-solana-wallet
+	url = https://github.com/Open-Rails/expo-solana-wallet
