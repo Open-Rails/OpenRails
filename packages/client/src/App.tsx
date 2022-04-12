@@ -13,6 +13,7 @@ import { PeerConnectionContextProvider } from "./hooks/usePeerConnection";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ChatContextProvider } from "./hooks/useChat";
+import PhandomDLPlayground from "./phantom-dl-method-wrapper/PhantomDLPlayground/index";
 
 const fireFoxWallet = "GCQLiawuDQbaaxFUAKcGpvQxfSxddZwGDp8p4Q57DfoX";
 const mobileWallet = "8LfpJdYTjKU9ZdBZUErzMydRqGNrihKn2qvjwtBfYK2r";
@@ -20,12 +21,14 @@ const mobileWallet = "8LfpJdYTjKU9ZdBZUErzMydRqGNrihKn2qvjwtBfYK2r";
 function App() {
   return (
     <Container>
-      <CssBaseline/>
+      <CssBaseline />
       <Wallet>
+        <PhandomDLPlayground />
+
         <ChatContextProvider>
-        <PeerConnectionContextProvider>
-          <PeerConnection />
-        </PeerConnectionContextProvider>
+          <PeerConnectionContextProvider>
+            <PeerConnection />
+          </PeerConnectionContextProvider>
         </ChatContextProvider>
         <MerchantURL />
         <Balances />
