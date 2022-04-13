@@ -2,6 +2,7 @@ import { Transaction } from "@solana/web3.js";
 import axios from "axios";
 import connect from "./connect";
 import disconnect from "./disconnect";
+import signAndSendTransaction from "./signAndSendTransaction";
 
 export interface ConfigObject {
   app_url: string;
@@ -22,7 +23,7 @@ export class DeepLinking {
   }
   disconnect() {
     const nonce = "";
-
+    
     return disconnect({
       dapp_encryption_public_key: this.config.dapp_encryption_public_key,
       nonce,
@@ -30,12 +31,22 @@ export class DeepLinking {
       redirect_link: this.config.redirect_link_disconnect,
     });
   }
-  signAndSendTransaction(transaction: Transaction) {}
+  signAndSendTransaction(transaction: Transaction) {
+    
+    
+    
+    signAndSendTransaction({
+      dapp_encryption_public_key: "",
+      nonce: "",
+      payload: "",
+      redirect_link: ""
+    })
+  }
   public constructor(private config: ConfigObject) {}
 }
 
 export const initDeepLinking = (newSolanaObject: DeepLinking) => {
-  window.solana = newSolanaObject;
+  window.solana = newSolanaObject; 
 };
 
 export const getTypedWindowSolana = () => {
