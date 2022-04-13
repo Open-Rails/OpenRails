@@ -26,11 +26,11 @@ export interface SignAndSendTransactionResponse {
 }
 
 export function signAndSendTransaction(params: SignAndSendTransactionParameters) {
-  const connectUrl = buildProviderMethodUrlV1("connect");
+  const signAndSendTransactionUrl = buildProviderMethodUrlV1("signAndSendTransaction");
 
   return axios
     .get<any, SignAndSendTransactionResponse, PhantomErrorResponse>(
-      connectUrl,
+      signAndSendTransactionUrl,
       { params }
     )
     .then((res) => {
