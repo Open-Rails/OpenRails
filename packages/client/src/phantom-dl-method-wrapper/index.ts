@@ -15,6 +15,7 @@ export interface ConfigObject {
 
 export class DeepLinking {
   session: string | null = null;
+  phantomPublicKey: string | null = null;
   xkey = nacl.box.keyPair.fromSecretKey(
     new Uint8Array([
       75, 15, 153, 122, 191, 60, 69, 94, 254, 218, 68, 228, 187, 121, 213, 132,
@@ -49,23 +50,34 @@ export class DeepLinking {
       decodedPhantom_encryption_public_key
     );
 
-    const decripted = nacl.box.open(
+    const decrypted = nacl.box.open(
       decodedData,
       decodedNonce,
       decodedPhantom_encryption_public_key,
       this.xkey.secretKey
     );
 
-    
+    const textDecoder = new TextDecoder("utf-8");
 
+    if (decrypted) {
+      const dataJson = JSON.parse(textDecoder.decode(decrypted));
+      if (!(dataJson.session && dataJson.phantomPublicKey)) {
+        throw new Error("Phantom Connect JSON object is malformed");
+      }
 
+      this.session = dataJson.session;
+      this.phantomPublicKey = dataJson.public_key;
 
-    console.log("decripted", decripted);
+      localStorage.setItem(
+        "phantom_encryption_public_key",
+        this.phantomPublicKey!
+      );
+      localStorage.setItem("session", this.session!);
+     } else {
+      console.error("not decripted");
+    }
 
-    localStorage.setItem(
-      "phantom_encryption_public_key",
-      phantom_encryption_public_key
-    );
+    console.log("decripted", decrypted);
   }
   disconnect() {
     const nonce = "";
