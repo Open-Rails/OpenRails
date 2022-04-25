@@ -32,6 +32,23 @@ export interface ConnectResponse {
   };
 }
 
+export const connectURL = (params: ConnectParameters) => {
+  params.cluster = params.cluster || "devnet";
+
+  const connectUrl = buildProviderMethodUrlV1("connect");
+
+  const queryParams = new URLSearchParams();
+  queryParams.append("app_url", params.app_url);
+  queryParams.append("cluster", params.cluster);
+  queryParams.append(
+    "dapp_encryption_public_key",
+    params.dapp_encryption_public_key
+  );
+  queryParams.append("redirect_link", params.redirect_link);
+
+  return `${connectUrl}?${queryParams.toString()}`;
+};
+
 export function connect(params: ConnectParameters) {
   params.cluster = params.cluster || "devnet";
 

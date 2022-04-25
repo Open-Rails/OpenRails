@@ -25,6 +25,7 @@ function App() {
     <Container>
       <CssBaseline />
 
+      <p>dev host: {location.host}</p>
       <Stack>
         <NavLink to={AppRouting.Home}>Home</NavLink>
         <NavLink to={AppRouting.Index}>Index</NavLink>
