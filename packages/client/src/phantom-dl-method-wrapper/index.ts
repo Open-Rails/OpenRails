@@ -4,6 +4,7 @@ import disconnect from "./disconnect";
 import signAndSendTransaction from "./signAndSendTransaction";
 import nacl from "tweetnacl";
 import bs58 from "bs58";
+import { connectURL } from "./connect";
 
 export interface ConfigObject {
   app_url: string;
@@ -14,14 +15,22 @@ export interface ConfigObject {
 
 export class DeepLinking {
   session: string | null = null;
-  get connect() {
-    return connect({
+  xkey = nacl.box.keyPair.fromSecretKey(
+    new Uint8Array([
+      75, 15, 153, 122, 191, 60, 69, 94, 254, 218, 68, 228, 187, 121, 213, 132,
+      139, 14, 90, 175, 174, 101, 106, 251, 126, 181, 196, 78, 254, 27, 81, 187,
+    ])
+  );
+
+  get connectURL() {
+    return connectURL({
       app_url: this.config.app_url,
-      dapp_encryption_public_key:
-        this.config.dapp_encryption_public_key.toString(),
+      cluster: "devnet",
+      dapp_encryption_public_key: bs58.encode(this.xkey.publicKey),
       redirect_link: this.config.redirect_link_connect,
     });
   }
+
   connectDLHandler(
     data: string,
     nonce: string,
@@ -40,14 +49,16 @@ export class DeepLinking {
       decodedPhantom_encryption_public_key
     );
 
-    const keypair = Keypair.fromSeed(decodedPhantom_encryption_public_key);
-
     const decripted = nacl.box.open(
       decodedData,
       decodedNonce,
       decodedPhantom_encryption_public_key,
-      keypair.publicKey.toBytes()
+      this.xkey.secretKey
     );
+
+    
+
+
 
     console.log("decripted", decripted);
 
@@ -77,16 +88,15 @@ export class DeepLinking {
     });
   }
   public constructor(private config: ConfigObject) {
-    config.redirect_link_connect = encodeURI(config.redirect_link_connect);
-    config.redirect_link_disconnect = encodeURI(
-      config.redirect_link_disconnect
-    );
+    config.redirect_link_connect = config.redirect_link_connect;
+    config.redirect_link_disconnect = config.redirect_link_disconnect;
   }
 }
 
 let deepLinking: DeepLinking | null = null;
 export const initDeepLinking = (newSolanaObject: DeepLinking) => {
   deepLinking = newSolanaObject;
+  return deepLinking;
 };
 
 export const getTypedWindowSolana = () => {

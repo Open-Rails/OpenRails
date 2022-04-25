@@ -10,7 +10,8 @@ import { createAppUrl } from "../../routing";
 import { connectURL } from "../connect";
 import { QRCodeCanvas } from "qrcode.react";
 import { useLocation } from "react-router-dom";
-import { Keypair,  } from "@solana/web3.js";
+import { Keypair } from "@solana/web3.js";
+import connect from "../connect";
 
 const kp = new Keypair();
 
@@ -24,20 +25,13 @@ const settingsDL: ConfigObject = {
   redirect_link_disconnect: createAppUrl("disconnect"),
 };
 
-initDeepLinking(new DeepLinking(settingsDL));
-const phantomWrapper = getTypedWindowSolana();
+const solana = initDeepLinking(new DeepLinking(settingsDL));
 
 export const PhandomDLPlayground: React.FC = () => {
   const location = useLocation();
   const [log, setLog] = React.useState<string[]>([]);
 
   React.useEffect(() => {
-    const handleDeepLinkingURL = (urlString: string) => {
-      const url = new URLSearchParams(urlString);
-
-      console.log("URL: ", url);
-    };
-
     const urlParams = new URLSearchParams(location.search);
 
     const data = urlParams.get("data");
@@ -46,23 +40,14 @@ export const PhandomDLPlayground: React.FC = () => {
       "phantom_encryption_public_key"
     );
 
-    if (data && nonce && phantom_encryption_public_key && phantomWrapper) {
+    if (data && nonce && phantom_encryption_public_key && solana) {
       setLog([data, nonce, phantom_encryption_public_key]);
 
-      phantomWrapper.connectDLHandler(
-        data,
-        nonce,
-        phantom_encryption_public_key
-      );
+      solana.connectDLHandler(data, nonce, phantom_encryption_public_key);
     }
   }, []);
 
-  const connurl = connectURL({
-    app_url: settingsDL.app_url,
-    cluster: "devnet",
-    dapp_encryption_public_key: settingsDL.dapp_encryption_public_key,
-    redirect_link: settingsDL.redirect_link_connect,
-  });
+  const connurl = solana.connectURL;
 
   console.log("connurl->   ", connurl);
 
@@ -72,7 +57,14 @@ export const PhandomDLPlayground: React.FC = () => {
     <Box borderRadius="15px" border="2px solid grey">
       PhantomDLPLayground
       <pre>{JSON.stringify(settingsDL, null, 1)}</pre>
-      <pre> {JSON.stringify(log)}</pre>
+      <p>{location.search}</p>
+      <pre> {JSON.stringify(log, null, 1)}</pre>
+      <p>key</p>
+      <pre>
+        {solana.xkey.publicKey.toString()}
+        <br />
+        {solana.xkey.secretKey.toString()}
+      </pre>
       <a href={connurl}>{connurl}</a>
       <a href={dlTest}>self link test</a>
       <QRCodeCanvas value={connurl} />
